@@ -11,6 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Plus, Trash2, Download, Settings, Sparkles, X, RotateCcw, ExternalLink } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { type ButtonProps } from '@/components/ui/button';
+import { type BadgeProps } from '@/components/ui/badge';
 
 // 类型定义
 interface PersonalInfo {
@@ -62,10 +64,13 @@ interface ResumeData {
   mainTechStack: string[];
 }
 
+// 修复Select的类型错误
+type AIModel = 'gpt-3.5-turbo' | 'gpt-4' | 'gpt-4-turbo' | 'gemini-pro';
+
 interface AIConfig {
   apiUrl: string;
   apiKey: string;
-  model: string;
+  model: AIModel;
 }
 
 interface AppState {
@@ -507,7 +512,7 @@ function WorkExperienceEditor() {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>工作经历</CardTitle>
-        <Button onClick={handleAdd} size="sm" aria-label="添加工作经历">
+        <Button onClick={handleAdd} aria-label="添加工作经历">
           <Plus className="w-4 h-4 mr-2" />
           添加
         </Button>
@@ -519,7 +524,6 @@ function WorkExperienceEditor() {
               <h4 className="font-medium">工作经历</h4>
               <Button
                 variant="ghost"
-                size="sm"
                 onClick={() => handleDelete(exp.id)}
                 aria-label="删除工作经历"
               >
@@ -609,7 +613,11 @@ function EducationEditor() {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>教育背景</CardTitle>
-        <Button onClick={handleAdd} size="sm" aria-label="添加教育背景">
+        <Button 
+          onClick={handleAdd} 
+          className="h-9 rounded-md px-3"
+          aria-label="添加教育背景"
+        >
           <Plus className="w-4 h-4 mr-2" />
           添加
         </Button>
@@ -621,7 +629,6 @@ function EducationEditor() {
               <h4 className="font-medium">教育经历</h4>
               <Button
                 variant="ghost"
-                size="sm"
                 onClick={() => handleDelete(edu.id)}
                 aria-label="删除教育背景"
               >
@@ -727,7 +734,11 @@ function SkillsEditor() {
             placeholder="输入技能后按回车添加"
             aria-label="新技能"
           />
-          <Button onClick={handleAdd} size="sm" aria-label="添加技能">
+          <Button 
+            onClick={handleAdd}
+            className="h-9 rounded-md px-3"
+            aria-label="添加技能"
+          >
             <Plus className="w-4 h-4" />
           </Button>
         </div>
@@ -735,22 +746,17 @@ function SkillsEditor() {
         {/* 技能标签显示区域 */}
         <div className="flex flex-wrap gap-2">
           {skills.map((skill, index) => (
-            <Badge 
-              key={index} 
-              variant="secondary" 
-              className="flex items-center gap-1"
-            >
+            <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-gray-100 text-gray-900">
               {skill}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-auto p-0 ml-1"
+              <button
+                type="button"
+                className="h-auto p-0 ml-1 text-gray-600 hover:text-gray-800"
                 onClick={() => handleDelete(index)}
                 aria-label={`删除技能 ${skill}`}
               >
                 <X className="w-3 h-3" />
-              </Button>
-            </Badge>
+              </button>
+            </div>
           ))}
         </div>
         
@@ -797,7 +803,11 @@ function OpenSourceProjectsEditor() {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>开源项目</CardTitle>
-        <Button onClick={handleAdd} size="sm" aria-label="添加开源项目">
+        <Button 
+          onClick={handleAdd}
+          className="h-9 rounded-md px-3"
+          aria-label="添加开源项目"
+        >
           <Plus className="w-4 h-4 mr-2" />
           添加
         </Button>
@@ -852,8 +862,7 @@ function ProjectEditor({ project, onUpdate, onDelete, onAddTech, onDeleteTech }:
       <div className="flex justify-between items-start">
         <h4 className="font-medium">开源项目</h4>
         <Button
-          variant="ghost"
-          size="sm"
+          className="hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
           onClick={() => onDelete(project.id)}
           aria-label="删除开源项目"
         >
@@ -920,24 +929,22 @@ function ProjectEditor({ project, onUpdate, onDelete, onAddTech, onDeleteTech }:
             onKeyDown={handleTechKeyDown}
             placeholder="输入技术栈后按回车添加"
           />
-          <Button onClick={handleAddTechClick} size="sm" aria-label="添加技术栈">
+          <Button 
+            onClick={handleAddTechClick}
+            className="h-9 rounded-md px-3"
+            aria-label="添加技术栈"
+          >
             <Plus className="w-4 h-4" />
           </Button>
         </div>
         <div className="flex flex-wrap gap-2 mt-2">
           {project.technologies.map((tech, index) => (
-            <Badge key={index} variant="secondary" className="flex items-center gap-1">
+            <span
+              key={index}
+              className="text-gray-900 text-xs font-bold mr-2"
+            >
               {tech}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-auto p-0 ml-1"
-                onClick={() => onDeleteTech(project.id, index)}
-                aria-label={`删除技术栈 ${tech}`}
-              >
-                <X className="w-3 h-3" />
-              </Button>
-            </Badge>
+            </span>
           ))}
         </div>
       </div>
@@ -1008,24 +1015,30 @@ function JobIntentionEditor() {
               placeholder="输入主要技术栈后按回车添加（如：React, Node.js, Python）"
               aria-label="新技术栈"
             />
-            <Button onClick={handleAddTech} size="sm" aria-label="添加主要技术栈">
+            <Button 
+              onClick={handleAddTech} 
+              className="h-9 rounded-md px-3"
+              aria-label="添加主要技术栈"
+            >
               <Plus className="w-4 h-4" />
             </Button>
           </div>
           <div className="flex flex-wrap gap-2 mt-3">
             {mainTechStack.map((tech, index) => (
-              <Badge key={index} variant="outline" className="flex items-center gap-1 bg-blue-50 text-blue-700 border-blue-200">
+              <div 
+                key={index} 
+                className="flex items-center gap-1 px-2 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200"
+              >
                 {tech}
-                <Button
-                  variant="ghost"
-                  size="sm"
+                <button
+                  type="button"
                   className="h-auto p-0 ml-1 text-blue-600 hover:text-blue-800"
                   onClick={() => handleDeleteTech(index)}
                   aria-label={`删除主要技术栈 ${tech}`}
                 >
                   <X className="w-3 h-3" />
-                </Button>
-              </Badge>
+                </button>
+              </div>
             ))}
           </div>
           {mainTechStack.length === 0 && (
@@ -1261,10 +1274,14 @@ function AIConfigModal() {
     setIsOpen(false);
   };
 
+  const handleModelChange = (value: AIModel) => {
+    setTempConfig({ ...tempConfig, model: value });
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" aria-label="AI配置">
+        <Button variant="outline" aria-label="AI配置">
           <Settings className="w-4 h-4 mr-2" />
           AI配置
         </Button>
@@ -1297,7 +1314,7 @@ function AIConfigModal() {
             <Label htmlFor="model">模型选择</Label>
             <Select
               value={tempConfig.model}
-              onValueChange={(value) => setTempConfig({ ...tempConfig, model: value })}
+              onValueChange={handleModelChange}
             >
               <SelectTrigger>
                 <SelectValue />
@@ -1311,7 +1328,11 @@ function AIConfigModal() {
             </Select>
           </div>
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={handleCancel}>
+            <Button 
+              onClick={handleCancel}
+              variant="outline"
+              className="border border-input bg-background hover:bg-accent "
+            >
               取消
             </Button>
             <Button onClick={handleSave}>
@@ -1465,7 +1486,6 @@ function ActionBar() {
 
       // 配置html2canvas选项 - 使用更简单的配置
       const canvas = await html2canvas(resumeElement, {
-        scale: 2,
         useCORS: true,
         backgroundColor: '#ffffff',
         allowTaint: true,
@@ -1473,8 +1493,10 @@ function ActionBar() {
         logging: true,
         removeContainer: false,
         scrollX: 0,
-        scrollY: 0
-      });
+        scrollY: 0,
+        width: resumeElement.offsetWidth * 2,
+        height: resumeElement.offsetHeight * 2
+      } as any);
 
       console.log('Canvas创建成功:', {
         width: canvas.width,
