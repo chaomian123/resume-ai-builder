@@ -1,31 +1,32 @@
-项目结构
-resume-builder/
-├── package.json
-├── tsconfig.json
-├── tailwind.config.js
-├── next.config.js
-├── components.json
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx
-│   │   ├── page.tsx
-│   │   └── globals.css
-│   ├── components/
-│   │   ├── ui/
-│   │   │   ├── card.tsx
-│   │   │   ├── button.tsx
-│   │   │   ├── input.tsx
-│   │   │   ├── textarea.tsx
-│   │   │   ├── label.tsx
-│   │   │   ├── dialog.tsx
-│   │   │   ├── select.tsx
-│   │   │   ├── badge.tsx
-│   │   │   └── alert.tsx
-│   │   └── resume-builder.tsx
-│   ├── lib/
-│   │   └── utils.ts
-│   └── types/
-│       └── resume.ts
+# 项目结构
+
+- resume-builder/
+  - package.json
+  - tsconfig.json 
+  - tailwind.config.js
+  - next.config.js
+  - components.json
+  - src/
+    - app/
+      - layout.tsx
+      - page.tsx
+      - globals.css
+    - components/
+      - ui/
+        - card.tsx
+        - button.tsx
+        - input.tsx
+        - textarea.tsx
+        - label.tsx
+        - dialog.tsx
+        - select.tsx
+        - badge.tsx
+        - alert.tsx
+      - resume-builder.tsx
+    - lib/
+      - utils.ts
+    - types/
+      - resume.ts
 
 
 主要功能特点：
@@ -42,5 +43,11 @@ resume-builder/
 部署：
 ```bash
 npm run build
-npm start
+
+```
+
+开发
+```bash
+npm i
+npm run dev
 ```
