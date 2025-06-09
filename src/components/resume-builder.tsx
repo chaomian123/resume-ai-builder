@@ -919,7 +919,6 @@ function ProjectEditor({ project, onUpdate, onDelete, onAddTech, onDeleteTech }:
             onChange={(e) => setNewTech(e.target.value)}
             onKeyDown={handleTechKeyDown}
             placeholder="输入技术栈后按回车添加"
-            size="sm"
           />
           <Button onClick={handleAddTechClick} size="sm" aria-label="添加技术栈">
             <Plus className="w-4 h-4" />
